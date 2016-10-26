@@ -18,7 +18,7 @@ public class CoffeeServer {
 		Parameter paramO1 = new Parameter("o", "_o1");
 		Parameter paramO2 = new Parameter("o", "_o2");
 		Parameter paramN = new Parameter("n", "_n");
-		//Parameter paramX = new Parameter("x", "_x");
+		Parameter paramX = new Parameter("x", "_x");
 		
 		Predicate robotLocation = new Predicate("Robot-location", paramO);
 		Predicate robotLocationO1 = new Predicate("Robot-location", paramO1);
@@ -28,14 +28,14 @@ public class CoffeeServer {
 		Predicate petition = new Predicate("Petition", paramO, paramN);
 		Predicate served = new Predicate("Served", paramO);
 		Predicate machine = new Predicate("Machine", paramO, paramN);
-		//Predicate steps = new Predicate("Steps", paramX);
+		Predicate steps = new Predicate("Steps", paramX);
 		availablePredicates.addAll(Arrays.asList(robotLocation, robotFree,
-				robotLoaded, petition, served, machine/*, steps*/));
+				robotLoaded, petition, served, machine, steps));
 		
 		Operator make = new Operator("Make", Arrays.asList(robotLocation, robotFree, machine),
 				Arrays.asList(robotLoaded), Arrays.asList(robotFree), paramO, paramN);
-		Operator move = new MoveOperator(Arrays.asList(robotLocationO1/*, steps*/), 
-				Arrays.asList(robotLocationO2/*, steps*/), Arrays.asList(robotLocationO1/*, steps*/), paramO1, paramO2);
+		Operator move = new MoveOperator(Arrays.asList(robotLocationO1, steps), 
+				Arrays.asList(robotLocationO2, steps), Arrays.asList(robotLocationO1, steps), paramO1, paramO2);
 		Operator serve = new Operator("Serve", Arrays.asList(robotLocation, robotLoaded, petition),
 				Arrays.asList(served, robotFree), Arrays.asList(petition, robotLoaded), paramO, paramN);
 		availableOperators.addAll(Arrays.asList(make, move, serve));
@@ -45,6 +45,7 @@ public class CoffeeServer {
 		initialPredicates.add(new Predicate("Robot-location", new Parameter("o", "o1")));
 		initialPredicates.add(new Predicate("Machine", new Parameter("o", "o4"), new Parameter("n", "3")));
 		initialPredicates.add(new Predicate("Petition", new Parameter("o", "o11"), new Parameter("n", "3")));
+		initialPredicates.add(new Predicate("Steps", new Parameter("x", "0")));
 		
 		List<Predicate> finalPredicates = new ArrayList<Predicate>();
 		finalPredicates.add(new Predicate("Robot-location", new Parameter("o", "o7")));

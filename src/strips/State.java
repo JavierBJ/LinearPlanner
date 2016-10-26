@@ -27,8 +27,7 @@ public class State extends PredicateSet {
 	 * "add" list are added to the state.
 	 */
 	public void applyOperator(Operator op) {
-		predicates.removeAll(op.getDeletes());
-		predicates.addAll(op.getAdds());
+		op.apply(this);
 	}
 	
 }

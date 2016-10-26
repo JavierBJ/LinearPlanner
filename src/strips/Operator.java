@@ -182,5 +182,15 @@ public class Operator implements Stackable {
 		}
 		return s;
 	}
+
+	/**
+	 * Applies the operator to a state, that is, adds and deletes
+	 * the predicates specified at the adds and deletes tables,
+	 * respectively.
+	 */
+	public void apply(State state) {
+		state.getPredicates().removeAll(deletes);
+		state.getPredicates().addAll(adds);
+	}
 	
 }

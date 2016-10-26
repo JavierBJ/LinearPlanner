@@ -5,6 +5,7 @@ import java.util.List;
 import strips.Operator;
 import strips.Parameter;
 import strips.Predicate;
+import strips.State;
 
 /**
  * 
@@ -23,7 +24,7 @@ import strips.Predicate;
  *
  */
 public class MoveOperator extends Operator {
-
+	
 	/**
 	 * Creates a MoveOperator with some params and a list of preconditions,
 	 * adds and deletes.
@@ -77,5 +78,63 @@ public class MoveOperator extends Operator {
 			}
 		}
 		return paste;
+	}
+	
+	/**
+	 * Applies the Move operator to the state, that is, it adds and deletes the
+	 * predicates specified in the adds and deletes tables. Also, the steps(x)
+	 * predicate is properly treated, so as to be added with the value of steps(x)
+	 * plus the distance from o1 to o2, given Move(o1,o2).
+	 */
+	public void apply(State state) {
+		/* Searches the Serve(x) predicate, retrieves x and updates it with the new steps */
+		int x = 0;
+		for (int i=0; i<state.getPredicates().size(); i++) {
+			if (state.getPredicates().get(i).getName().equals("Steps")) {
+				x = Integer.parseInt(state.getPredicates().get(i).getParams().get(0).getValue());
+			}
+		}
+		x += manhattanDistance();
+		
+		/* Updates adds and deletes from the state */
+		state.getPredicates().removeAll(this.getDeletes());
+		state.getPredicates().addAll(this.getAdds());
+		
+		/* Instantiates Serve(x) as Serve(x + distance(o1,o2) */
+		for (int i=0; i<state.getPredicates().size(); i++) {
+			if (state.getPredicates().get(i).getName().equals("Steps")) {
+				state.getPredicates().get(i).getParams().get(0).setValue(new Integer(x).toString());
+			}
+		}
+	}
+
+	/**
+	 * Calculates the Manhattan Distance between two positions specified as the
+	 * parameters of Move.
+	 */
+	private int manhattanDistance() {
+		String o1 = this.getParams().get(0).getValue();
+		String o2 = this.getParams().get(1).getValue();
+		int x1 = toCoordsX(o1);
+		int x2 = toCoordsX(o2);
+		int y1 = toCoordsY(o1);
+		int y2 = toCoordsY(o2);
+		return Math.abs(x2 - x1) + Math.abs(y2 - y1);
+	}
+
+	/**
+	 * Translates an Oi parameter to its X coordinate.
+	 */
+	private int toCoordsX(String o) {
+		int num = Integer.parseInt(o.substring(1));
+		return (num - 1) % 6;
+	}
+	
+	/**
+	 * Translates an Oi parameter to its Y coordinate.
+	 */
+	private int toCoordsY(String o) {
+		int num = Integer.parseInt(o.substring(1));
+		return (num - 1) / 6;
 	}
 }
