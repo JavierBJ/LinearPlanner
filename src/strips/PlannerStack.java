@@ -60,35 +60,44 @@ public class PlannerStack {
 	public void translateParameters(String value, String translation) {
 		for (int i=0; i<stack.size(); i++) {
 			Stackable elem = stack.get(i);
-			if (elem instanceof Predicate) {
-				Predicate pred = (Predicate) elem;
-				boolean changed = false;
-				for (int j=0; !changed && j<pred.getParams().size(); j++) {
-					String oldValue = pred.getParams().get(j).getValue();
-					if (value.equals(oldValue)) {
-						pred.getParams().get(j).setValue(translation);
-					}
-				}
-			} else if (elem instanceof Operator) {
-				Operator op = (Operator) elem;
-				boolean changed = false;
-				for (int j=0; !changed && j<op.getParams().size(); j++) {
-					String oldValue = op.getParams().get(j).getValue();
-					if (value.equals(oldValue)) {
-						op.getParams().get(j).setValue(translation);
-					}
-				}
+			if (elem instanceof SingleStackable) {
+				translate(value, translation, (SingleStackable) elem);
 			} else if (elem instanceof PredicateSet) {
 				PredicateSet set = (PredicateSet) elem;
 				for (Predicate pred : set.getPredicates()) {
-					boolean changed = false;
-					for (int j=0; !changed && j<pred.getParams().size(); j++) {
-						String oldValue = pred.getParams().get(j).getValue();
-						if (value.equals(oldValue)) {
-							pred.getParams().get(j).setValue(translation);
-						}
-					}
+					translate(value, translation, pred);
 				}
+			}
+		}
+	}
+	
+	/**
+	 * Execute the parameters translation of a single stackable element, that is,
+	 * a predicate or an operator.
+	 */
+	private void translate(String value, String translation, SingleStackable elem) {
+		/* Translates parameters of the element itself */
+		boolean changed = false;
+		for (int j=0; !changed && j<elem.getParams().size(); j++) {
+			String oldValue = elem.getParams().get(j).getValue();
+			if (value.equals(oldValue)) {
+				elem.getParams().get(j).setValue(translation);
+			}
+		}
+		
+		/* If it is an operator, also the tables need translation */
+		if (elem instanceof Operator) {
+			Operator op = (Operator) elem;
+			
+			/* Translates predicates from preconditions, adds and deletes tables */
+			for (Predicate pred : op.getPreconditions()) {
+				translate(value, translation, pred);
+			}
+			for (Predicate pred : op.getAdds()) {
+				translate(value, translation, pred);
+			}
+			for (Predicate pred : op.getDeletes()) {
+				translate(value, translation, pred);
 			}
 		}
 	}

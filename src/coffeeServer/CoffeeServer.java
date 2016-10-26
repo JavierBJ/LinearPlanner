@@ -1,6 +1,9 @@
 package coffeeServer;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +43,27 @@ public class CoffeeServer {
 				Arrays.asList(served, robotFree), Arrays.asList(petition, robotLoaded), paramO, paramN);
 		availableOperators.addAll(Arrays.asList(make, move, serve));
 		
-		List<Predicate> initialPredicates = new ArrayList<Predicate>();
+		try {
+			ProblemReader reader = new ProblemReader("input.txt");
+			reader.readStates();
+			State initialState = reader.getInitialState();
+			State goalState = reader.getGoalState();
+			builder.addPredicates(availablePredicates);
+			builder.addOperators(availableOperators);
+			builder.setInitialState(initialState);
+			builder.setFinalState(goalState);
+			builder.setLogOutput(System.out);
+			
+			LinearPlanner planner = builder.build();
+			List<Operator> plan = planner.executePlan();
+			for (Operator op : plan) {
+				System.out.println(op.getName());
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		/*List<Predicate> initialPredicates = new ArrayList<Predicate>();
 		initialPredicates.add(new Predicate("Robot-free"));
 		initialPredicates.add(new Predicate("Robot-location", new Parameter("o", "o1")));
 		initialPredicates.add(new Predicate("Machine", new Parameter("o", "o4"), new Parameter("n", "3")));
@@ -52,23 +75,14 @@ public class CoffeeServer {
 		finalPredicates.add(new Predicate("Served", new Parameter("o", "o11")));
 		
 		State initialState = new State(initialPredicates);
-		State goalState = new State(finalPredicates);
+		State goalState = new State(finalPredicates);*/
 		
-		builder.addPredicates(availablePredicates);
-		builder.addOperators(availableOperators);
-		builder.setInitialState(initialState);
-		builder.setFinalState(goalState);
-		builder.setLogOutput(System.out);
-
-		try {
-			LinearPlanner planner = builder.build();
-			List<Operator> plan = planner.executePlan();
-			for (Operator op : plan) {
-				System.out.println(op.getName());
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		
+		/*try {
+			builder.setLogOutput(new PrintStream(new File("log.txt")));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}*/
 	}
 	
 }

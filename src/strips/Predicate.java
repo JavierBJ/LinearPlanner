@@ -15,50 +15,29 @@ import java.util.List;
  * @author Javier Beltran, Jorge Rodriguez
  *
  */
-public class Predicate implements Stackable {
-	
-	private String name;
-	private List<Parameter> params;
+public class Predicate extends SingleStackable {
 
 	/**
 	 * Creates a predicate from its name and parameters.
 	 */
 	public Predicate(String name, Parameter... params) {
-		this.name = name;
-		this.params = Arrays.asList(params);
+		super.setName(name);
+		super.setParams(Arrays.asList(params));
 	}
 	
 	/**
 	 * Creates a predicate from its name and a list of parameters.
 	 */
 	public Predicate(String name, List<Parameter> params) {
-		this.name = name;
-		this.params = params;
-	}
-	
-	/* Getters and setters */
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public List<Parameter> getParams() {
-		return params;
-	}
-
-	public void setParams(List<Parameter> params) {
-		this.params = params;
+		super.setName(name);
+		super.setParams(params);
 	}
 	
 	public String toString() {
-		String s = name + "(";
-		for (int i=0; i<params.size(); i++) {
-			s += params.get(i).toString();
-			s += (i < params.size()-1) ? ", " : ")";
+		String s = getName() + "(";
+		for (int i=0; i<getParams().size(); i++) {
+			s += getParams().get(i).toString();
+			s += (i < getParams().size()-1) ? ", " : ")";
 		}
 		return s;
 	}
