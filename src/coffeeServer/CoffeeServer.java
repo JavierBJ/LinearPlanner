@@ -44,7 +44,7 @@ public class CoffeeServer {
 		availableOperators.addAll(Arrays.asList(make, move, serve));
 		
 		try {
-			ProblemReader reader = new ProblemReader("input.txt");
+			ProblemReader reader = new ProblemReader("simple_problem.txt");
 			reader.readStates();
 			State initialState = reader.getInitialState();
 			State goalState = reader.getGoalState();

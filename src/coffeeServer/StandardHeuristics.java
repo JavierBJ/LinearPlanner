@@ -23,8 +23,9 @@ public class StandardHeuristics implements Intelligence {
 			Predicate pred = state.getPredicates().get(i);
 			if (pred.getName().equals("Robot-location")) {
 				l.add(pred);
-			} else{
-				int distance = 0;
+			} else {
+				// TODO: estan puestos o1 y o2 a pelo, habra que poner los parametros de lo que sea.
+				int distance = Distance.manhattanDistance("o1", "o2");
 				distances.put(pred, distance );	
 			}	
 		}
@@ -42,14 +43,10 @@ public class StandardHeuristics implements Intelligence {
 			l.add(op.getPreconditions().get(2));
 			
 		} else if (op.getName().equals("Make")){
-			
-			
 			l.add(op.getPreconditions().get(0));
-			
 			l.add(op.getPreconditions().get(2));
 			l.add(op.getPreconditions().get(1));
 		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

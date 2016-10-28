@@ -94,7 +94,8 @@ public class MoveOperator extends Operator {
 				x = Integer.parseInt(state.getPredicates().get(i).getParams().get(0).getValue());
 			}
 		}
-		x += manhattanDistance();
+		x += Distance.manhattanDistance(this.getParams().get(0).getValue(), 
+				this.getParams().get(1).getValue());
 		
 		/* Updates adds and deletes from the state */
 		state.getPredicates().removeAll(this.getDeletes());
@@ -106,35 +107,5 @@ public class MoveOperator extends Operator {
 				state.getPredicates().get(i).getParams().get(0).setValue(new Integer(x).toString());
 			}
 		}
-	}
-
-	/**
-	 * Calculates the Manhattan Distance between two positions specified as the
-	 * parameters of Move.
-	 */
-	private int manhattanDistance() {
-		String o1 = this.getParams().get(0).getValue();
-		String o2 = this.getParams().get(1).getValue();
-		int x1 = toCoordsX(o1);
-		int x2 = toCoordsX(o2);
-		int y1 = toCoordsY(o1);
-		int y2 = toCoordsY(o2);
-		return Math.abs(x2 - x1) + Math.abs(y2 - y1);
-	}
-
-	/**
-	 * Translates an Oi parameter to its X coordinate.
-	 */
-	private int toCoordsX(String o) {
-		int num = Integer.parseInt(o.substring(1));
-		return (num - 1) % 6;
-	}
-	
-	/**
-	 * Translates an Oi parameter to its Y coordinate.
-	 */
-	private int toCoordsY(String o) {
-		int num = Integer.parseInt(o.substring(1));
-		return (num - 1) / 6;
 	}
 }
