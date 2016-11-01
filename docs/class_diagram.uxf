@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>490</y>
+      <w>1450</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>coffeeServer package
+strips package
+lw=3</panel_attributes>
+    <additional_attributes>10.0;20.0;1430.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>610</x>
+      <y>560</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Stackable
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>220</x>
+      <y>740</y>
+      <w>290</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>/SingleStackable/
+--
+- name : String
+- params : List&lt;Parameter&gt;
+--
++ getName() : String
++ setName(String s) : void
++ getParams() : List&lt;Parameter&gt;
++ setParams(List&lt;Parameter&gt; l) : void
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>610</y>
+      <w>300</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>280.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>740</y>
+      <w>300</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>PredicateSet
+--
+- predicates : List&lt;Predicate&gt;
+--
++ getPredicates() : List&lt;Predicate&gt;
++ setPredicates(List&lt;Predicate&gt; l) : void
++ contains(Predicate p) : boolean
++ toString() : String
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>610</y>
+      <w>180</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>920</y>
+      <w>300</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>State
+--
+--
++ applyOperator(Operator op) : void
++ toString() : String
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>860</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>960</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Predicate
+--
+--
++ toString() : String
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>960</y>
+      <w>280</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Operator
+--
+- preconditions : List&lt;Predicate&gt;
+- adds : List&lt;Predicate&gt;
+- deletes : List&lt;Predicate&gt;
+--
++ instantiate(Predicate p) : Operator
++ apply(State s) : void
++ toString() : String
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>230</x>
+      <y>880</y>
+      <w>100</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>880</y>
+      <w>150</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>240</x>
+      <y>540</y>
+      <w>250</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Parameter
+--
+- name : String
+- value : String
+--
++ isInstantiated() : boolean
++ equals(Parameter p) : boolean
++ toString() : String
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>1220</y>
+      <w>300</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>LinearPlannerBuilder
+--
+- availablePredicates : List&lt;Predicate&gt;
+- availableOperators : List&lt;Operator&gt;
+- plan : List&lt;Operator&gt;
+- initialState : State
+- finalState : State
+- logOutput : PrintStream
+--
++ addPredicates(List&lt;Predicate&gt; l) : void
++ addOperators(List&lt;Operator&gt; l) : void
++ setInitialState(State s) : void
++ setFinalState(State s) : void
++ setLogOutput(PrintStream ps) : void
++ build() : LinearPlanner
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>920</y>
+      <w>300</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>LinearPlanner
+--
+- availablePredicates : List&lt;Predicate&gt;
+- availableOperators : List&lt;Operator&gt;
+- plan : List&lt;Operator&gt;
+- currentState : State
+- finalState : State
+- stack : PlannerStack
+--
++ executePlan() : List&lt;Operator&gt;
++ log() : void
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1100</y>
+      <w>80</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=creates</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>550</x>
+      <y>790</y>
+      <w>120</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=1..N</panel_attributes>
+    <additional_attributes>100.0;10.0;60.0;10.0;60.0;210.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>940</x>
+      <y>920</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+initialState</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>700</y>
+      <w>400</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>PlannerStack
+--
+- stack : Stack&lt;Stackable&gt;
+--
++ push(Stackable s) : void
++ pop() : Stackable
++ isEmpty() : boolean
++ translateParameters(String value, String transl) : void
++ toString() : String
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>840</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>570</y>
+      <w>580</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=        0..N</panel_attributes>
+    <additional_attributes>560.0;130.0;560.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1070</x>
+      <y>380</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>CoffeeServer
+--
+--
++ main(String[] args) : void
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>410</y>
+      <w>170</w>
+      <h>930</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=uses</panel_attributes>
+    <additional_attributes>90.0;910.0;150.0;910.0;150.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>600</x>
+      <y>230</y>
+      <w>350</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Distance
+--
+--
++ manhattanDistance(String o1, String o2) : int
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>150</x>
+      <y>40</y>
+      <w>440</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Intelligence
+--
++ orderFinalState(State s) : List&lt;Predicate&gt;
++ orderPreconditions(Operator op, State s) : List&lt;Predicate&gt;
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>290</x>
+      <y>240</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>StandardHeuristics
+--
+--
+bg=green
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>130</y>
+      <w>30</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>270</y>
+      <w>180</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=uses</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>690</x>
+      <y>380</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>MoveOperator
+--
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>410</y>
+      <w>550</w>
+      <h>570</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;550.0;10.0;10.0;530.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>290</y>
+      <w>60</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=uses</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1070</x>
+      <y>150</y>
+      <w>210</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ProblemReader
+--
+- file : BufferedReader
+- initialState : State
+- goalState : State
+--
++ readStates() : void
++ getInitialState() : State
++ getGoalState() : State
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1160</x>
+      <y>300</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>1060</y>
+      <w>710</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=plan</panel_attributes>
+    <additional_attributes>10.0;10.0;690.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>940</x>
+      <y>970</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=goalState</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>660</y>
+      <w>80</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=params</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>190</x>
+      <y>130</y>
+      <w>100</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Intelligence
+--
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>250</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>StandardHeuristics
+bg=green
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>250</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>CoffeeServer
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>130</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>MoveOperator
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>130</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>ProblemReader
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>250</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Distance
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>120</x>
+      <y>70</y>
+      <w>750</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>coffeeServer
+--
+bg=gray
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>460</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Operator
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>570</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>/SingleStackable/
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>200</x>
+      <y>460</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Stackable
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>570</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Predicate
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>460</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>PredicateSet
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>560</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>State
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>460</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Parameter
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1170</x>
+      <y>460</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>LinearPlanner
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>560</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>PlannerStack
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1170</x>
+      <y>560</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>LinearPlannerBuilder
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>120</x>
+      <y>390</y>
+      <w>1250</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>strips
+--
+bg=gray
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>340</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
