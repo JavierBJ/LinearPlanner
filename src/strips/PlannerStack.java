@@ -125,10 +125,23 @@ public class PlannerStack {
 	public String toString() {
 		String s =  "";
 		for (int i=stack.size()-1; i>=0; i--) {
-			s += "|" + String.join("", Collections.nCopies(78, " ")) + "\n";
-			s += "| " + stack.get(i) + " \n";
-			s += "|" + String.join("", Collections.nCopies(78, " ")) + "\n";
-			s += "|" + String.join("", Collections.nCopies(78, "-")) + "\n";
+			int textLength = stack.get(i).toString().length();
+			s += "|" + String.join("", Collections.nCopies(78, " ")) + "|\n";
+			
+			/* 
+			 * Separates the full text of the element in parts of maximum of 78 characters,
+			 * and writes every part in a different line.
+			 */
+			int pos = 0;
+			while (pos < textLength) {
+				String part = stack.get(i).toString().substring(pos, Math.min(pos+78, textLength));
+				s += "| " + part;
+				/* Adds as many spaces as necessary to fulfill 80 characters in the whole line */
+				s += String.join("", Collections.nCopies(77-part.length(), " ")) + "|\n";
+				pos += 78;
+			}
+			s += "|" + String.join("", Collections.nCopies(78, " ")) + "|\n";
+			s += "|" + String.join("", Collections.nCopies(78, "-")) + "|\n";
 		}
 		return s;
 		
