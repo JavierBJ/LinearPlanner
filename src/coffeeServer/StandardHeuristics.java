@@ -25,7 +25,7 @@ public class StandardHeuristics implements Intelligence {
 				l.add(pred);
 			} else {
 				// TODO: estan puestos o1 y o2 a pelo, habra que poner los parametros de lo que sea.
-				int distance = Distance.manhattanDistance("o1", "o2");
+				int distance = Distance.manhattanDistance(l.get(0).getParams().get(0).getValue(), pred.getParams().get(0).getValue());
 				distances.put(pred, distance );	
 			}	
 		}
@@ -47,13 +47,37 @@ public class StandardHeuristics implements Intelligence {
 			l.add(op.getPreconditions().get(2));
 			l.add(op.getPreconditions().get(1));
 		}
-		return null;
+		return l;
 	}
+	
+	
+	public List<Predicate> getMachine(Operator op, State currentstate) {
+		String location = "";
+		for (int i=0; i<currentstate.getPredicates().size(); i++) {
+			if (currentstate.getPredicates().get(i).getName().equals("Robot-location")){
+				location = currentstate.getPredicates().get(i).getParams().get(0).getValue();
+			}
+		}
+		
+		List<Predicate> l = new ArrayList<Predicate>();
+		Map<Predicate, Integer> distances = new HashMap<Predicate, Integer>();
+		for (int i=0; i<currentstate.getPredicates().size(); i++) {
+			Predicate pred = currentstate.getPredicates().get(i);
+			int distance = Distance.manhattanDistance(l.get(0).getParams().get(0).getValue(), pred.getParams().get(0).getValue());
+			distances.put(pred, distance );	
+		}	
+		Map<Predicate, Integer> sortedDistances = sortByValue(distances);
+		l.addAll(sortedDistances.keySet());
+		
+		
+		return l;
+	}
+	
 	
 	private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
 	    return map.entrySet()
 	              .stream()
-	              .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
+	              .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/))
 	              .collect(Collectors.toMap(
 	                Map.Entry::getKey, 
 	                Map.Entry::getValue, 
