@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import coffeeServer.Intelligence;
+
 /**
  * 
  * A LinearPlannerBuilder is a Builder design pattern that helps
@@ -28,6 +30,7 @@ public class LinearPlannerBuilder {
 	private List<Operator> availableOperators;
 	private State initialState;
 	private State finalState;
+	private Intelligence intelligence;
 	private PrintStream logOutput;
 	
 	public LinearPlannerBuilder() {
@@ -65,6 +68,10 @@ public class LinearPlannerBuilder {
 		finalState = state;
 	}
 	
+	public void setIntelligence(Intelligence intelligence) {
+		this.intelligence = intelligence;
+	}
+	
 	public void setLogOutput(PrintStream logOutput) {
 		this.logOutput = logOutput;
 	}
@@ -76,7 +83,7 @@ public class LinearPlannerBuilder {
 	 */
 	public LinearPlanner build() throws FileNotFoundException {
 		return new LinearPlanner(availablePredicates, availableOperators,
-				initialState, finalState, logOutput);
+				initialState, finalState, intelligence, logOutput);
 	}
 	
 }

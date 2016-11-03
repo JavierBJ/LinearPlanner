@@ -11,5 +11,5 @@ public interface Intelligence {
 	
 	public List<Predicate> orderFinalState(State state);
 	
-	public List<Predicate> orderPreconditions(Operator op, State currentState);
+	public List<Predicate> orderPreconditions(Operator op);
 }

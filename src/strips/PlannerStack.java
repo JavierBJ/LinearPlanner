@@ -102,15 +102,6 @@ public class PlannerStack {
 		}
 	}
 	
-	/**
-	 * Checks whether a parameter has already been
-	 * instantiated or not.
-	 */
-	public boolean isInstantiated(Parameter p) {
-		/* Uninstantiated parameters start with _ */
-		return !p.getValue().startsWith("_");
-	}
-	
 	
 	/* Getters and setters */
 	
@@ -125,7 +116,8 @@ public class PlannerStack {
 	public String toString() {
 		String s =  "";
 		for (int i=stack.size()-1; i>=0; i--) {
-			int textLength = stack.get(i).toString().length();
+			String text = stack.get(i).toString();
+			int textLength = text.length();
 			s += "|" + String.join("", Collections.nCopies(78, " ")) + "|\n";
 			
 			/* 
@@ -134,10 +126,10 @@ public class PlannerStack {
 			 */
 			int pos = 0;
 			while (pos < textLength) {
-				String part = stack.get(i).toString().substring(pos, Math.min(pos+78, textLength));
+				String part = text.substring(pos, Math.min(pos+78, textLength));
 				s += "| " + part;
 				/* Adds as many spaces as necessary to fulfill 80 characters in the whole line */
-				s += String.join("", Collections.nCopies(77-part.length(), " ")) + "|\n";
+				s += String.join("", Collections.nCopies(79-part.length(), " ")) + "|\n";
 				pos += 78;
 			}
 			s += "|" + String.join("", Collections.nCopies(78, " ")) + "|\n";

@@ -24,9 +24,8 @@ public class StandardHeuristics implements Intelligence {
 			if (pred.getName().equals("Robot-location")) {
 				l.add(pred);
 			} else {
-				// TODO: estan puestos o1 y o2 a pelo, habra que poner los parametros de lo que sea.
 				int distance = Distance.manhattanDistance(l.get(0).getParams().get(0).getValue(), pred.getParams().get(0).getValue());
-				distances.put(pred, distance );	
+				distances.put(pred, distance);	
 			}	
 		}
 		Map<Predicate, Integer> sortedDistances = sortByValue(distances);
@@ -35,7 +34,7 @@ public class StandardHeuristics implements Intelligence {
 	}
 
 	@Override
-	public List<Predicate> orderPreconditions(Operator op, State currentState) {
+	public List<Predicate> orderPreconditions(Operator op) {
 		List<Predicate> l = new ArrayList<Predicate>();
 		if (op.getName().equals("Serve")){
 			l.add(op.getPreconditions().get(0));
@@ -46,6 +45,8 @@ public class StandardHeuristics implements Intelligence {
 			l.add(op.getPreconditions().get(0));
 			l.add(op.getPreconditions().get(2));
 			l.add(op.getPreconditions().get(1));
+		} else if (op.getName().equals("Move")) {
+			l.addAll(op.getPreconditions());
 		}
 		return l;
 	}

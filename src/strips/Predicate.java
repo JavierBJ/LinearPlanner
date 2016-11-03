@@ -33,6 +33,23 @@ public class Predicate extends SingleStackable {
 		super.setParams(params);
 	}
 	
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		if (!(obj instanceof Predicate)) return true;
+		
+		Predicate other = (Predicate) obj;
+		if (getParams().size() == other.getParams().size()) {
+			boolean eq = true;
+			for (int i=0; eq && i<getParams().size(); i++) {
+				if (!getParams().get(i).equals(other.getParams().get(i))) {
+					eq = false;
+				}
+			}
+			return eq && getName().equals(other.getName());
+		} else return false;
+	}
+	
 	public String toString() {
 		String s = getName() + "(";
 		for (int i=0; i<getParams().size(); i++) {

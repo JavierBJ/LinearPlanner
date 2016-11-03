@@ -27,6 +27,15 @@ public class Parameter {
 		this.setValue(value);
 	}
 
+	/**
+	 * Checks whether a parameter has already been
+	 * instantiated or not.
+	 */
+	public boolean isInstantiated() {
+		/* Uninstantiated parameters start with _ */
+		return !value.startsWith("_");
+	}
+	
 	
 	/* Getters and setters */
 	

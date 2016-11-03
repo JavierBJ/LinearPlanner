@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import coffeeServer.Intelligence;
+
 /**
  * 
  * A LinearPlanner receives a problem defined by a set of predicates,
@@ -34,6 +36,7 @@ public class LinearPlanner {
 	private List<Operator> plan;
 	private State currentState;
 	private State finalState;
+	private Intelligence intelligence;
 	private PlannerStack stack;
 	
 	/**
@@ -41,13 +44,14 @@ public class LinearPlanner {
 	 * and its initial and final state. It also specifies an path for the log to be output.
 	 */
 	public LinearPlanner(List<Predicate> availablePredicates, List<Operator> availableOperators,
-			State currentState, State finalState, PrintStream logOutput) throws FileNotFoundException {
+			State currentState, State finalState, Intelligence intelligence, PrintStream logOutput) throws FileNotFoundException {
 		step = 0;
 		this.availablePredicates = availablePredicates;
 		this.availableOperators = availableOperators;
 		plan = new ArrayList<Operator>();
 		this.currentState = currentState;
 		this.finalState = finalState;
+		this.intelligence = intelligence;
 		stack = new PlannerStack();
 
 		this.logOutput = logOutput;
@@ -60,7 +64,7 @@ public class LinearPlanner {
 	public List<Operator> executePlan() {
 		/* The stack is initialized with the predicates of the goal state */
 		stack.push(finalState);
-		for (Predicate p : finalState.getPredicates()) {
+		for (Predicate p : intelligence.orderFinalState(finalState)) {
 			stack.push(p);
 		}
 		
@@ -70,7 +74,7 @@ public class LinearPlanner {
 		 */
 		while(!stack.isEmpty()) {
 			step++;
-			log();
+			logStack();
 			Stackable elem = stack.pop();
 			
 			if (elem instanceof Operator) {
@@ -97,7 +101,7 @@ public class LinearPlanner {
 				
 				/* Instantiates the lacking parameters */
 				for (Parameter p : pred.getParams()) {
-					if (!stack.isInstantiated(p)) {
+					if (!p.isInstantiated()) {
 						instantiate(pred);
 					}
 				}
@@ -110,8 +114,10 @@ public class LinearPlanner {
 					/* Stacks the operator and preconditions needed */
 					Operator selectedOp = selectOperator(pred);
 					stack.push(selectedOp);
-					stack.push(new PredicateSet(selectedOp.getPreconditions()));
-					for (Predicate onePred : selectedOp.getPreconditions()) {
+					List<Predicate> precs = 
+							intelligence.orderPreconditions(selectedOp);
+					stack.push(new PredicateSet(precs));
+					for (Predicate onePred : precs) {
 						stack.push(onePred);
 					}
 				}
@@ -154,24 +160,36 @@ public class LinearPlanner {
 	 * in the stack.
 	 */
 	private void instantiate(Predicate pred) {
-		for (int i=0; i<currentState.getPredicates().size(); i++) {
+		boolean changed = false;
+		for (int i=0; !changed && i<currentState.getPredicates().size(); i++) {
 			Predicate currentPred = currentState.getPredicates().get(i);
-			
+			int changeIndex = -1;
 			/* Looks for predicates with the same name in the current state */
 			if (currentPred.getName().equals(pred.getName())) {
-				for (int j=0; j<currentPred.getParams().size(); j++) {
+				boolean isOk = true;
+				for (int j=0; isOk && j<currentPred.getParams().size(); j++) {
 					Parameter real = pred.getParams().get(j);
 					Parameter expected = currentPred.getParams().get(j);
 					
-					/* 
-					 * If a parameter is not instantiated (starts with _) and I
-					 * found an instance in the state, translate it.
-					 */
-					if (real.getValue().startsWith("_") && 
+					/* Makes sure that this is exactly the parameter to be instantiated */
+					if (!real.getValue().startsWith("_") && 
+							!real.getValue().equals(expected.getValue())) {
+						isOk = false;
+					} else if (real.getValue().startsWith("_") && 
 							real.getName().equals(expected.getName())) {
-						stack.translateParameters(real.getValue(), expected.getValue());
-						pred.getParams().get(j).setValue(expected.getValue());
+						/* 
+						 * If a parameter is not instantiated (starts with _) and I
+						 * found an instance in the state, translate it.
+						 */
+						changeIndex = j;
 					}
+				}
+				if (isOk && changeIndex != -1) {
+					stack.translateParameters(pred.getParams().get(changeIndex).getValue(), 
+							currentPred.getParams().get(changeIndex).getValue());
+					pred.getParams().get(changeIndex).setValue(
+							currentPred.getParams().get(changeIndex).getValue());
+					changed = true;
 				}
 			}
 		}
@@ -182,12 +200,29 @@ public class LinearPlanner {
 	 * step of the problem, the current state and a representation 
 	 * of the stack in that step.
 	 */
-	public void log() {
+	public void logStack() {
 		logOutput.println("Step: " + step);
 		logOutput.println("Current state: " + currentState.toString());
 		logOutput.println("Stack:");
 		logOutput.println(stack.toString());
 		logOutput.println("-----");
+	}
+	
+	public void logPlan() {
+		logOutput.println("Plan: ");
+		for (Operator op : plan) {
+			logOutput.println(op.toString());
+		}
+		logOutput.println();
+	}
+	
+	public void logSteps() {
+		for (Predicate pred : currentState.getPredicates()) {
+			if (pred.getName().equals("Steps")) {
+				logOutput.println("Steps: " + pred.getParams().get(0).getValue());
+				break;
+			}
+		}
 	}
 	
 	

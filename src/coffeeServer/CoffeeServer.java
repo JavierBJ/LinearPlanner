@@ -43,8 +43,10 @@ public class CoffeeServer {
 				Arrays.asList(served, robotFree), Arrays.asList(petition, robotLoaded), paramO, paramN);
 		availableOperators.addAll(Arrays.asList(make, move, serve));
 		
+		Intelligence intelligence = new StandardHeuristics();
+		
 		try {
-			ProblemReader reader = new ProblemReader("simple_problem.txt");
+			ProblemReader reader = new ProblemReader("example_problem.txt");
 			reader.readStates();
 			State initialState = reader.getInitialState();
 			State goalState = reader.getGoalState();
@@ -52,13 +54,13 @@ public class CoffeeServer {
 			builder.addOperators(availableOperators);
 			builder.setInitialState(initialState);
 			builder.setFinalState(goalState);
+			builder.setIntelligence(intelligence);
 			builder.setLogOutput(System.out);
 			
 			LinearPlanner planner = builder.build();
 			List<Operator> plan = planner.executePlan();
-			for (Operator op : plan) {
-				System.out.println(op.getName());
-			}
+			planner.logPlan();
+			planner.logSteps();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

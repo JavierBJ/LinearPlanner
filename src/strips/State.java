@@ -1,5 +1,6 @@
 package strips;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,23 @@ public class State extends PredicateSet {
 	 */
 	public void applyOperator(Operator op) {
 		op.apply(this);
+	}
+	
+	public void removeAll(List<Predicate> dels) {
+		List<Predicate> changed = new ArrayList<>();
+		for (int i=0; i<getPredicates().size(); i++) {
+			Predicate statePred = getPredicates().get(i);
+			boolean found = false;
+			for (int j=0; !found && j<dels.size(); j++) {
+				if (statePred.equals(dels.get(j))) {
+					found = true;
+				}
+			}
+			if (!found) {
+				changed.add(statePred);
+			}
+		}
+		setPredicates(changed);
 	}
 	
 }
