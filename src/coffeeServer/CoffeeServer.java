@@ -46,7 +46,7 @@ public class CoffeeServer {
 		Intelligence intelligence = new StandardHeuristics();
 		
 		try {
-			ProblemReader reader = new ProblemReader("example_problem.txt");
+			ProblemReader reader = new ProblemReader("problem1.txt");
 			reader.readStates();
 			State initialState = reader.getInitialState();
 			State goalState = reader.getGoalState();
