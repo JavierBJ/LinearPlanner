@@ -120,7 +120,7 @@ public class Operator extends SingleStackable {
 	 * respectively.
 	 */
 	public void apply(State state) {
-		state.removeAll(deletes);
+		state.removePredicates(deletes);
 		state.getPredicates().addAll(adds);
 	}
 	

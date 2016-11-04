@@ -88,22 +88,6 @@ m2=1..N</panel_attributes>
     <additional_attributes>100.0;10.0;60.0;10.0;60.0;210.0;10.0;210.0</additional_attributes>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1010</x>
-      <y>360</y>
-      <w>300</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>State
---
---
-+ applyOperator(Operator op) : void
-+ toString() : String
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>1150</x>
@@ -195,5 +179,22 @@ bg=orange</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1010</x>
+      <y>360</y>
+      <w>330</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>State
+--
+--
++ applyOperator(Operator op) : void
++ removePredicates(List&lt;Predicate&gt; l) : void
++ toString() : String
+bg=orange</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

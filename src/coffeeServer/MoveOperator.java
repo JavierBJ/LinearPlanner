@@ -98,7 +98,7 @@ public class MoveOperator extends Operator {
 				this.getParams().get(1).getValue());
 		
 		/* Updates adds and deletes from the state */
-		state.removeAll(this.getDeletes());
+		state.removePredicates(this.getDeletes());
 		state.getPredicates().addAll(this.getAdds());
 		
 		/* Instantiates Serve(x) as Serve(x + distance(o1,o2) */

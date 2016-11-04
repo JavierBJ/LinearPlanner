@@ -31,7 +31,7 @@ public class State extends PredicateSet {
 		op.apply(this);
 	}
 	
-	public void removeAll(List<Predicate> dels) {
+	public void removePredicates(List<Predicate> dels) {
 		List<Predicate> changed = new ArrayList<>();
 		for (int i=0; i<getPredicates().size(); i++) {
 			Predicate statePred = getPredicates().get(i);
