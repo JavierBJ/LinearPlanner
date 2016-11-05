@@ -51,11 +51,15 @@ public class Predicate extends SingleStackable {
 	}
 	
 	public String toString() {
-		String s = getName() + "(";
-		for (int i=0; i<getParams().size(); i++) {
-			s += getParams().get(i).toString();
-			s += (i < getParams().size()-1) ? ", " : ")";
+		String s = getName();
+		if (getParams().size()>0) {
+			s += "(";
+			for (int i=0; i<getParams().size(); i++) {
+				s += getParams().get(i).toString();
+				s += (i < getParams().size()-1) ? ", " : ")";
+			}
 		}
+		
 		return s;
 	}
 	

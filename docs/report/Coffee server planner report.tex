@@ -157,5 +157,64 @@ For the example we have a total of 375000 possible solutions, however as we have
 In the definition of the problem the robot moves across a square grid consisting of 36 squares, the squares are called o1, o2, ..., o36. To make it easier to count the number of steps, we have considered a way to convert this to coordinates $(x,y)$.
 
 
-\end{document}
+\section{Planning algorithm}
 
+
+\section{Implementation design}
+
+\subsection{A generic approach of the linear planner}
+Given that the problem consists in building a planner for a concrete solution (the coffee server), we believe that the best approach is to design a generic planner, which can be used for modelling any linear planning problem by just extending it.
+
+For achieving this, and taking into account that the program is built in Java, we followed an Object-Oriented approach. That is, every element of the algorithm has to be part of the model of the program. So the first task is to identify the main components of the STRIPS algorithm with a stack of goals:
+
+\begin{itemize}
+	\item The \textbf{stack} itself, which is a data structure with a LIFO policy. It contains all kinds of elements that are part of the problem, like the predicates and the operators.
+	\item The elements to be stacked, specifically:
+	\begin{itemize}
+		\item The \textbf{predicates}. They define the state of the problem and have 0 or more parameters, which can be instantiated or not.
+		\item The \textbf{operators}. They define how a state changes, by removing some predicates and adding others. They also have parameters which can be instantiated or not.
+		\item A \textbf{set of predicates}. They have to be added at some steps to make sure that we did not lose any predicate in order to achieve another one. There is a special case: the final \textbf{state} of the problem, which also has to be added to the stack as a set of predicates.
+	\end{itemize}
+	\item As we have seen before, \textbf{parameters} are needed. They are just a key-value item, but the value may have been instantiated or not. When a parameter gets a value, all the appearances of the parameter in the stack must be updated with the new value. For example, a parameter in our problem might be "o", and it may take values from "o1" to "o36".
+\end{itemize}
+
+It can be seen that many different kinds of objects have to be stored in the same stack. Also, we need access to all the elements pushed to the stack, not only the one on the top, so we can instantiate all the appearances of a parameter. Our proposal is the following: we can use the $Stack<E>$ from \textit{Java Collections}. It solves our two main concerns because of these reasons:
+
+\begin{itemize}
+	\item It grants access to each element stored with $get(int i)$, so we can instantiate all appearances of a parameter.
+	\item It is a generic stack, so it can be used to store objects of any type. But this type has to be the same. We solved this by constructing a \textit{marker interface} called $Stackable$. This means that every object that can be stacked must inherit from the $Stackable$ Java interface.
+\end{itemize}
+
+Our architecture for the Stackable elements is the following:
+
+(image of stackable elements)
+
+The linear planning algorithm is executed in the \textbf{LinearPlanner} class. It needs some information about the problem to solve: the initial and final states, the available operators and the available predicates. It is also responsible for logging the execution of the algorithm so it is easier to debug. One can see that the Linear Planner is a complex object that requires multiple attributes and some constraints among them. For example, the predicates that compose the initial and final state should be consistent with the available predicates defined.
+
+In order to make the task of creating a Linear Planner easier for the user, we added a \textit{LinearPlannerBuilder}. It is a \textit{Builder} pattern that helps in creating such a complex object. It also informs the user about errors or inconsistences in the declaration of the problem.
+
+
+\subsection{A specific application: The Coffee Server}
+
+If the problem to be solved is complex enough, just taking the generic planner and declaring the specific predicates, operators and states may not be enough. For example, some operators may have a special behaviour, that cannot be imitated by the generic Operator.
+
+This is what happens in our Coffee Server. The $Move(o1,o2)$ operator, when applied, deletes the $Steps(x)$ predicates and adds $Steps(x + distance(o1,o2))$, where $distance(o1,o2)$ is the Manhattan distance between cells $o1$ and $o2$. We cannot use the generic Operator we built, because it just replaces some predicates for others, keeping the same parameters.
+
+These problems can be solved by extending the generic Planner module, and adding some specific elements with a special behaviour. In our case, a MoveOperator has been created. It is able to instantiate the parameter of $Steps$ properly, by increasing the path distance and saving it in the new predicate.
+
+The heuristics used by the solver are also problem-specific, and should extend from the $Intelligence$ interface. In our problem we define the heuristics explained in the previous section. They implement the methods $orderFinalState()$ for stacking the petitions in the most efficient order, and $orderPreconditions()$ for stacking the preconditions of every operator in the right order. preventing loops.
+
+(full class diagram)
+
+Having explained the common and the specific part, the best way to organize the functionality of this program is to hold a STRIPS package, which contains the generic linear planner; and a coffeeServer package, with the specific part of this problem.
+
+(package diagram)
+
+\section{Testing cases and results}
+
+
+
+\section{Instructions to execute the program}
+
+
+\end{document}

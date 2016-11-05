@@ -56,15 +56,11 @@ public class PredicateSet implements Stackable {
 		String s = "[";
 		
 		for (int i=0; i<predicates.size(); i++) {
-			Predicate pred = predicates.get(i);
-			s += pred.getName() + "(";
-			for (int j=0; j<pred.getParams().size(); j++) {
-				s += pred.getParams().get(j).toString();
-				s += (j < pred.getParams().size()-1) ? ", " : "); ";
-			}
+			s += predicates.get(i).toString();
+			s += (i < predicates.size()-1) ? "; " : "]";
 		}
 		
-		return s + "]";
+		return s;
 	}
 	
 }

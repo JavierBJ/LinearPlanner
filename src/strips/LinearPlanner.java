@@ -27,7 +27,8 @@ import coffeeServer.Intelligence;
 public class LinearPlanner {
 	
 	/* Attributes needed for the log */
-	private int step;
+	private int iteration;
+	private long time;
 	private PrintStream logOutput;
 	
 	/* Attributes for the linear planner */
@@ -45,7 +46,8 @@ public class LinearPlanner {
 	 */
 	public LinearPlanner(List<Predicate> availablePredicates, List<Operator> availableOperators,
 			State currentState, State finalState, Intelligence intelligence, PrintStream logOutput) throws FileNotFoundException {
-		step = 0;
+		iteration = 0;
+		time = 0L;
 		this.availablePredicates = availablePredicates;
 		this.availableOperators = availableOperators;
 		plan = new ArrayList<Operator>();
@@ -62,6 +64,8 @@ public class LinearPlanner {
 	 * to be followed for getting to the final state from the initial state.
 	 */
 	public List<Operator> executePlan() {
+		time = System.currentTimeMillis();
+		
 		/* The stack is initialized with the predicates of the goal state */
 		stack.push(finalState);
 		for (Predicate p : intelligence.orderFinalState(finalState)) {
@@ -73,7 +77,7 @@ public class LinearPlanner {
 		 * stack is written, and the head element of the stack is unstacked. 
 		 */
 		while(!stack.isEmpty()) {
-			step++;
+			iteration++;
 			logStack();
 			Stackable elem = stack.pop();
 			
@@ -124,6 +128,7 @@ public class LinearPlanner {
 			}
 		}
 		
+		time = System.currentTimeMillis() - time;
 		return plan;
 	}
 	
@@ -201,9 +206,17 @@ public class LinearPlanner {
 	 * of the stack in that step.
 	 */
 	public void logStack() {
-		logOutput.println("Step: " + step);
-		logOutput.println("Current state: " + currentState.toString());
-		logOutput.println("Stack:");
+		logOutput.println("Iteration: " + iteration);
+		logOutput.println("\nCurrent state:");
+		String state = currentState.toString();
+		int pos = 0;
+		while (pos < state.length()) {
+			String part = state.substring(pos, Math.min(pos+80, state.length()));
+			logOutput.println(part);
+			
+			pos += 80;
+		}
+		logOutput.println("\nStack:");
 		logOutput.println(stack.toString());
 		logOutput.println("-----");
 	}
@@ -223,6 +236,8 @@ public class LinearPlanner {
 				break;
 			}
 		}
+		logOutput.println("Execution time: " + time + " ms");
+		logOutput.println("Number of iterations: " + iteration);
 	}
 	
 	

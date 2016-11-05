@@ -126,11 +126,11 @@ public class PlannerStack {
 			 */
 			int pos = 0;
 			while (pos < textLength) {
-				String part = text.substring(pos, Math.min(pos+78, textLength));
+				String part = text.substring(pos, Math.min(pos+76, textLength));
 				s += "| " + part;
 				/* Adds as many spaces as necessary to fulfill 80 characters in the whole line */
-				s += String.join("", Collections.nCopies(79-part.length(), " ")) + "|\n";
-				pos += 78;
+				s += String.join("", Collections.nCopies(77-part.length(), " ")) + "|\n";
+				pos += 76;
 			}
 			s += "|" + String.join("", Collections.nCopies(78, " ")) + "|\n";
 			s += "|" + String.join("", Collections.nCopies(78, "-")) + "|\n";

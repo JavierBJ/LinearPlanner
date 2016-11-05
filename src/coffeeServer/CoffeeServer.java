@@ -46,7 +46,7 @@ public class CoffeeServer {
 		Intelligence intelligence = new StandardHeuristics();
 		
 		try {
-			ProblemReader reader = new ProblemReader("problem1.txt");
+			ProblemReader reader = new ProblemReader("problem5.txt");
 			reader.readStates();
 			State initialState = reader.getInitialState();
 			State goalState = reader.getGoalState();
@@ -55,7 +55,8 @@ public class CoffeeServer {
 			builder.setInitialState(initialState);
 			builder.setFinalState(goalState);
 			builder.setIntelligence(intelligence);
-			builder.setLogOutput(System.out);
+			builder.setLogOutput(new PrintStream("log_problem5.txt"));
+			//builder.setLogOutput(System.out);
 			
 			LinearPlanner planner = builder.build();
 			List<Operator> plan = planner.executePlan();
@@ -64,27 +65,6 @@ public class CoffeeServer {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		/*List<Predicate> initialPredicates = new ArrayList<Predicate>();
-		initialPredicates.add(new Predicate("Robot-free"));
-		initialPredicates.add(new Predicate("Robot-location", new Parameter("o", "o1")));
-		initialPredicates.add(new Predicate("Machine", new Parameter("o", "o4"), new Parameter("n", "3")));
-		initialPredicates.add(new Predicate("Petition", new Parameter("o", "o11"), new Parameter("n", "3")));
-		initialPredicates.add(new Predicate("Steps", new Parameter("x", "0")));
-		
-		List<Predicate> finalPredicates = new ArrayList<Predicate>();
-		finalPredicates.add(new Predicate("Robot-location", new Parameter("o", "o7")));
-		finalPredicates.add(new Predicate("Served", new Parameter("o", "o11")));
-		
-		State initialState = new State(initialPredicates);
-		State goalState = new State(finalPredicates);*/
-		
-		
-		/*try {
-			builder.setLogOutput(new PrintStream(new File("log.txt")));
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}*/
 	}
 	
 }

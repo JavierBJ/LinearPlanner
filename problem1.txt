@@ -1,6 +1,7 @@
-InitialState=Robot-free;Robot-location(o36);Machine(o15,1);Machine(o16,2);
-Machine(o21,3);Petition(o1,2);Petition(o6,3);Petition(o31,1);
-Petition(o35,1);Steps(0);
+InitialState=Robot-free;Robot-location(o36);
+Machine(o15,1);Machine(o16,2);Machine(o21,3);
+Petition(o1,2);Petition(o6,3);Petition(o31,1);Petition(o35,1);
+Steps(0);
 
-GoalState=Robot-location(o24);Served(o1);Served(o6);Served(o31);
-Served(o35);
+GoalState=Robot-location(o24);
+Served(o1);Served(o6);Served(o31);Served(o35);
