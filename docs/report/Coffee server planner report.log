@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.11.4)  6 NOV 2016 13:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.11.4)  6 NOV 2016 14:23
 entering extended mode
 **"./Coffee server planner report.tex"
 ("Coffee server planner report.tex"
@@ -715,53 +715,79 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[1] [2] [3] [4]
-Overfull \hbox (12.09921pt too wide) in paragraph at lines 235--236
+[1] [2] [3] <figures/stackable_hierarchy.png, id=21, 923.45pt x 762.85pt>
+File: figures/stackable_hierarchy.png Graphic file (type png)
+
+<use figures/stackable_hierarchy.png>
+Package pdftex.def Info: figures/stackable_hierarchy.png used on input line 214
+.
+(pdftex.def)             Requested size: 369.37346pt x 305.1346pt.
+ [4] [5 <./figures/stackable_hierarchy.png (PNG copy)>]
+Overfull \hbox (12.09921pt too wide) in paragraph at lines 233--234
 []\OT1/cmr/m/n/12 The heuris-tics used by the solver are also problem-specific,
  and should ex-tend from the $\OML/cmm/m/it/12 Intelligence$
  []
 
-[5] <figures/example_problem.png, id=28, 289.68225pt x 290.88675pt>
+<figures/class_diagram.png, id=29, 1495.5875pt x 1415.2875pt>
+File: figures/class_diagram.png Graphic file (type png)
+
+<use figures/class_diagram.png>
+Package pdftex.def Info: figures/class_diagram.png used on input line 239.
+(pdftex.def)             Requested size: 523.46347pt x 495.35805pt.
+
+Overfull \hbox (22.69476pt too wide) in paragraph at lines 239--240
+ [][] 
+ []
+
+[6 <./figures/class_diagram.png (PNG copy)>]
+<figures/package_diagram.png, id=34, 1294.8375pt x 712.6625pt>
+File: figures/package_diagram.png Graphic file (type png)
+
+<use figures/package_diagram.png>
+Package pdftex.def Info: figures/package_diagram.png used on input line 248.
+(pdftex.def)             Requested size: 388.45424pt x 213.8004pt.
+
+<figures/example_problem.png, id=35, 289.68225pt x 290.88675pt>
 File: figures/example_problem.png Graphic file (type png)
 
 <use figures/example_problem.png>
-Package pdftex.def Info: figures/example_problem.png used on input line 251.
+Package pdftex.def Info: figures/example_problem.png used on input line 261.
 (pdftex.def)             Requested size: 202.77618pt x 203.61932pt.
- [6 <./figures/example_problem.png>]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 267.
-
-<figures/iterations.pdf, id=35, 844.95674pt x 597.432pt>
+ [7 <./figures/package_diagram.png (PNG copy)>] [8 <./figures/example_problem.p
+ng>]
+<figures/iterations.pdf, id=44, 844.95674pt x 597.432pt>
 File: figures/iterations.pdf Graphic file (type pdf)
 
 <use figures/iterations.pdf>
-Package pdftex.def Info: figures/iterations.pdf used on input line 284.
+Package pdftex.def Info: figures/iterations.pdf used on input line 294.
 (pdftex.def)             Requested size: 337.97672pt x 238.96857pt.
 
-<figures/time.pdf, id=36, 844.95674pt x 597.432pt>
+<figures/time.pdf, id=45, 844.95674pt x 597.432pt>
 File: figures/time.pdf Graphic file (type pdf)
  <use figures/time.pdf>
-Package pdftex.def Info: figures/time.pdf used on input line 292.
+Package pdftex.def Info: figures/time.pdf used on input line 302.
 (pdftex.def)             Requested size: 337.97672pt x 238.96857pt.
 
-[7 <./figures/iterations.pdf>] [8 <./figures/time.pdf>]
-<figures/problems.png, id=59, 657.657pt x 1059.35776pt>
+[9 <./figures/iterations.pdf> <./figures/time.pdf
+
+pdfTeX warning: pdflatex.exe (file ./figures/time.pdf): PDF inclusion: multiple
+ pdfs with page group included in a single page
+>] [10] <figures/problems.png, id=67, 657.657pt x 1059.35776pt>
 File: figures/problems.png Graphic file (type png)
 
 <use figures/problems.png>
-Package pdftex.def Info: figures/problems.png used on input line 305.
-(pdftex.def)             Requested size: 263.05814pt x 423.7356pt.
- [9 <./figures/problems.png>]
+Package pdftex.def Info: figures/problems.png used on input line 318.
+(pdftex.def)             Requested size: 328.8277pt x 529.67758pt.
+ [11 <./figures/problems.png>]
 ("Coffee server planner report.aux") ) 
 Here is how much of TeX's memory you used:
- 4395 strings out of 493334
- 56393 string characters out of 3139240
- 137242 words of memory out of 3000000
- 7805 multiletter control sequences out of 15000+200000
+ 4415 strings out of 493334
+ 56898 string characters out of 3139240
+ 137267 words of memory out of 3000000
+ 7822 multiletter control sequences out of 15000+200000
  14087 words of font info for 56 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,13n,43p,793b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 40i,13n,43p,795b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
 msfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
@@ -770,9 +796,10 @@ pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/P
 rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program F
 iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on "Coffee server planner report.pdf" (10 pages, 810676 bytes).
+Output written on "Coffee server planner report.pdf" (12 pages, 1063644 bytes).
+
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
+ 98 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

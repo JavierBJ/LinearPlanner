@@ -93,13 +93,13 @@ For this first laboratory we were asked to consider the following scenario:
 
 There is a squared building composed by 36 offices, which are located in a matrix of 6 rows and 6 columns. From each office it is possible to move (horizontally or vertically) to the adjacent offices. The building has some coffee machines in some offices that can make 1, 2 or 3 cups of coffee at one time.
 The people working at the offices may ask for coffee and a robot called “Clooney” is in charge of serving the coffees required. Each office may ask for 1, 2 or 3 coffees but not more. The petitions of coffee are done all at early morning (just when work starts) so that the robot can plan the service procedure. Each petition has to be served in a single service.
-The goal is to serve all the drinks to all the offices in an efficient way (minimizing the travel inside the building, in order to not disturb the people working).
+The goal is to serve all the drinks to all the offices in an efficient way (minimizing the travel inside the building, in order not to disturb the people working).
 
-We start with a initial state called $e_i$, which is compounded of a set of predicates. The initial state in particular has the following predicates: The initial position of the robot, the position of the coffee machines, and position of the coffee petitions.  The final state $e_f$ on the other hand, is compounded of the following predicates: The final robot position and the machines position (no more petition appears). The way of achieving this final state is by going to the machines, take the coffee and them going to each petition to leave the coffee.
+We start with an initial state called $e_i$, which is compounded of a set of predicates. The initial state in particular has the following predicates: The initial position of the robot, the position of the coffee machines, and position of the coffee petitions.  The final state $e_f$, on the other hand, is compounded of the following predicates: The final robot position and the petitions served. The way of achieving this final state is by going to the machines, taking the coffee and going to each petition to serve the coffee.
 
-To solve this problem we will implement a general planner which later will be use to solve the problem, for this we will use an algorithm called STRIPS. This algorithm is based on stacking the predicates needed to get to the final state and them finding the operators needed to get this predicates. The implementation of this has been done in Java, this will be explained in detail bellow.
+To solve this problem we implemented a general planner which will be used to solve the problem, for this we will use an algorithm called STRIPS. This algorithm is based on stacking the predicates needed to get to the final state and then finding the operators needed to get this predicates. The implementation has been done in Java, and implementation details will be explained in detail below.
 
-As we mentioned before to formalise this problem we need to define a set of predicates and operators, for each operator we have series of preconditions, adds and deletes which are sets of predicates. This is shown in the Table\ref{op} all this together with the arguments needed for each operator:
+As we mentioned before, to formalise the problem we need to define a set of predicates and operators, for each operator we have series of preconditions, adds and deletes which are sets of predicates. This is shown in the Table \ref{op} with the arguments needed for each operator:
 
 \begin{table}[h!]
 	\centering
@@ -115,7 +115,7 @@ As we mentioned before to formalise this problem we need to define a set of pred
 \end{table}
 %%%%%%% Table with the operators, precondtions, adds ad deletes
 
-The predicates are easier to define, the following list show the predicates considered for this problem:
+The predicates are easier to define, the following list shows the predicates considered for this problem:
 
 \begin{itemize}
 	\item \textbf{Robot-location(o)}: the robot is in office o.
@@ -134,7 +134,7 @@ The predicates are easier to define, the following list show the predicates cons
 		
 \end{itemize}
 
-There are some consideration that can be taken so the problem is simpler:
+There are some consideration thats can be taken so the problem is simpler:
 
 \begin{itemize}
 	\item The robot only makes coffee for a single petition each time. That is, the robot cannot make 3 cups of coffee to serve two different offices. First, will make coffee of one office and serve it, and after will go to the same or another coffee machine to serve the second office.
@@ -146,11 +146,9 @@ There are some consideration that can be taken so the problem is simpler:
 
 \section{Analysis of the problem}
 
-In this section we are going to  analyse the problem. First of all we notice that to the given initial state we have to  add robot-free, as to the goal state.
-
 Taking into account the considerations to simplify the problem, this problem can be seen as an optimization problem where we want to minimize the number of steps of the robot choosing the order in which it has to visit every petition after passing for a coffee machine with the same amount of coffee as the petition. 
 
-The search space has a total size of $|P!||M^{|P|}|$, where $|P|$ is the number of petitions and $|M|$ the number of possible machine, supposing that the robot always takes the optimal path form one point to another, so the number of possible paths is irrelevant,as the cost is always the same. To get to this result we just need to notice that we have two list of possible orders, the petitions which can't be revisited, what means a factorial; and the machines which can be revisited what means a exponential number of combinations. As we can see the number of petitions is what increases more the complexity of the problem, interestingly the complexity rely on the number of petitions and machines, the size of the grid doesnt' affect the complexity.
+The search space has a total size of $|P!||M^{|P|}|$, where $|P|$ is the number of petitions and $|M|$ the number of possible machine, supposing that the robot always takes the optimal path from one point to another, so the number of possible paths is irrelevant,as the cost is always the same. To get to this result we just need to notice that we have two lists of possible orders, the petitions which can't be revisited, what means a factorial; and the machines which can be revisited what means a exponential number of combinations. As we can see the number of petitions is what increases more the complexity of the problem, interestingly the complexity rely on the number of petitions and machines, the size of the grid does not affect the complexity.
 
 For the example we have a total of 375000 possible solutions, however as we have taken the consideration that to serve a petition we need to go to a machine with the same number of coffees, the total number decreases to 1920.
 
@@ -165,32 +163,26 @@ Another thing to take into account is that, in the definition of the problem the
 
 Where o is the value of the position, $[ \ ]$ represents the integer part of the number and  $mod6$ means the remainder of the division.
 
-Since this is an example, the preconditions, operators and states are quite straightforward, however the way the steps are calculated could somehow be troublesome. This doesn't mean is difficult, we just need to be careful as we do it in the implementation.
+Since this is an example, the preconditions, operators and states are quite straightforward, however the way the steps are calculated could somehow be troublesome.
 
-For the STRIPS algorithm we need to organize well the preconditions as new operators are needed, if we do not do so, we can situations like cycles or impossible to instantiate parameters. For example, if we use the operator $Make(o,n)$ if the precondition $robot-location(o)$ the one in the top of the stack, the algorithm would not know the value of $o$, instead, if we stack $Machine(o,n)$ last, the value $o$ is given by the number of coffees $n$ needed. In the following section we will discuss the heuristics needed to avoid this kind of situations and to minimise the steps needed to serve the coffees.
+For the STRIPS algorithm we need to organize well the preconditions as new operators are needed; if we do not do so, we can get to situations like cycles or being unable to instantiate parameters. For example, if we use the operator $Make(o,n)$: if the precondition $robot-location(o)$ is the one in the top of the stack, the algorithm would not know the value of $o$, instead, if we stack $Machine(o,n)$ last, the value $o$ is given by the number of coffees $n$ needed. In the following section we will discuss the heuristics needed to avoid this kind of situations and to minimise the steps needed to serve the coffees.
 
 
 \section{Planning algorithm}
 
-The first think we have to consider is the order we stack the predicates for the final state, as this is the way we  will resolve the problem, the order determines directly the optimality. To solve this we have created two functions:
-\begin{itemize}
-	\item The first one orders the petitions based on the distance to the final position. This way we solve the problem trying to end the nearest as possible from the final position. This does not assure optimality but it gives a decent enough solution.
-	
-	\item The second one, orders the petitions based on their distance to the first and last locations. The way it does this is by staking first the nearer to the final location, them it stack last the nearest to the initial location, etc. This approach is slightly better than the previous one, since we take into account the initial location. Nevertheless, as before, we can't assure the optimality of the solutions, sometimes it will be optimal. Although, we know that the solution will very suboptimal.
-	
-\end{itemize}
+The first thing we have to consider is the order we stack the predicates for the final state, as this is the way we  will resolve the problem, the order determines directly the optimality. To solve this we have created a heuristic that orders the petitions based on the distance to the final position. This way we solve the problem trying to end the nearest as possible from the final position. This does not assure optimality but it gives a decent enough solution.
 
-For the operators $Make$ and $Serve$ we have chosen a fix order to stack the preconditions, since the order determines the result of the problem. For this we have done some steps of the STRIPS algorithm by hand, so we could see how the algorithm works for our problem.
-
-For the $Make$ operator, first we stack $robot-location$, since we do not know the value for the $o$ parameter; them we stack $Machine$ so we can get the location $o$ based on the petition value $n$, notice that the location of the machine will be the nearer one to the robot and the petition, in other words, the one that minimises, $d$:
+For the operators $Make$ and $Serve$ we have chosen a fixed order to stack the preconditions, since the order determines the result of the problem. For the $Make$ operator, first we stack $robot-location$, since we do not know the value for the $o$ parameter; then we stack $Machine$ so we can get the location $o$ based on the petition value $n$, notice that the location of the machine will be the nearest to the robot and the petition, in other words, the one that minimises, $d$:
 $$d = distance(machine, robot) + distance(machine, petition)$$
- At last, $robot- free$ gets stacked, since is the first think need before getting coffee, notice that the way we have define this problem, the robot will always be free when it gets here.
+ Finally, $robot- free$ gets stacked, since this is the first thing needed before getting coffee, notice that the way we have defined this problem, the robot will always be free when it gets here.
  
- For $Serve$ operator the order is more or less the same. First we stack $robot-location$, since we do not know the value of $o$; them $robot-loaded$, due to it has to carry coffee to serve it and we do not know the number of coffees needed; the last thing to stack, which will be the first thing to get unstacked, is the petition which will instantiate the values of $o$ and $n$.
+ For $Serve$ operator the order is more or less the same. First we stack $robot-location$, since we do not know the value of $o$; then $robot-loaded$, due to it having to carry coffee to serve it and we do not know the number of coffees needed; the last thing to stack, which will be the first thing to get unstacked, is the petition which will instantiate the values of $o$ and $n$.
  
- Summarizing the planner will stack $Served(o)$ then it will unstack it, to get to $Served(o)$ we need the operator $Serve(o,n)$ which has the preconditions: $robot-location(o)$, $ loaded(n) $ and $petition(o,n)$. with petition it instantiates the parameters, the planner unstacks loaded, for which it needs the operator $Make(o',n)$ after stacking the preconditions: $robot-location(o')$, $machine(o',n)$ and $robot-free$. It instantiates $o'$ so it can use the operator $Move(o_i,o')$. Them the planner has solved one petition, the rest are exactly the same.
+ Summarizing the planner will stack $Served(o)$ then it will unstack it, to get to $Served(o)$ we need the operator $Serve(o,n)$ which has the preconditions: $robot-location(o)$, $ loaded(n) $ and $petition(o,n)$. with petition it instantiates the parameters, the planner unstacks loaded, for which it needs the operator $Make(o',n)$ after stacking the preconditions: $robot-location(o')$, $machine(o',n)$ and $robot-free$. It instantiates $o'$ so it can use the operator $Move(o_i,o')$. Then the planner has solved one petition, and the rest are exactly the same.
 
 \section{Implementation design}
+
+The architecture of the system is presented here, as well as the class diagram and package diagram in UML notation.
 
 \subsection{A generic approach of the linear planner}
 Given that the problem consists in building a planner for a concrete solution (the coffee server), we believe that the best approach is to design a generic planner, which can be used for modelling any linear planning problem by just extending it.
@@ -211,13 +203,19 @@ For achieving this, and taking into account that the program is built in Java, w
 It can be seen that many different kinds of objects have to be stored in the same stack. Also, we need access to all the elements pushed to the stack, not only the one on the top, so we can instantiate all the appearances of a parameter. Our proposal is the following: we can use the $Stack<E>$ from \textit{Java Collections}. It solves our two main concerns because of these reasons:
 
 \begin{itemize}
-	\item It grants access to each element stored with $get(int i)$, so we can instantiate all appearances of a parameter.
+	\item It grants access to each element stored with $get(i)$, so we can instantiate all appearances of a parameter.
 	\item It is a generic stack, so it can be used to store objects of any type. But this type has to be the same. We solved this by constructing a \textit{marker interface} called $Stackable$. This means that every object that can be stacked must inherit from the $Stackable$ Java interface.
 \end{itemize}
 
 Our architecture for the Stackable elements is the following:
 
-(image of stackable elements)
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{figures/stackable_hierarchy.png}
+	\caption{Stackable elements architecture}
+	\label{stackable} 
+\end{figure}
+
 
 The linear planning algorithm is executed in the \textbf{LinearPlanner} class. It needs some information about the problem to solve: the initial and final states, the available operators and the available predicates. It is also responsible for logging the execution of the algorithm so it is easier to debug. One can see that the Linear Planner is a complex object that requires multiple attributes and some constraints among them. For example, the predicates that compose the initial and final state should be consistent with the available predicates defined.
 
@@ -234,11 +232,23 @@ These problems can be solved by extending the generic Planner module, and adding
 
 The heuristics used by the solver are also problem-specific, and should extend from the $Intelligence$ interface. In our problem we define the heuristics explained in the previous section. They implement the methods $orderFinalState()$ for stacking the petitions in the most efficient order, and $orderPreconditions()$ for stacking the preconditions of every operator and preventing loops.
 
-(full class diagram)
+Here follows the class diagram of the program:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{figures/class_diagram.png}
+	\caption{Class diagram of the whole project}
+	\label{class_d} 
+\end{figure}
 
 Having explained the common and the specific part, the best way to organize the functionality of this program is to hold a STRIPS package, which contains the generic linear planner; and a coffeeServer package, with the specific part of this problem.
 
-(package diagram)
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{figures/package_diagram.png}
+	\caption{Package diagram of the project}
+	\label{package_d} 
+\end{figure}
 
 \section{Testing cases and results}
 Thanks to the \textit{ProblemReader}, any CoffeeServer problem can be written and read from the program. One just needs to write the initial and final state, following the syntax indicated in the exercise. Specifically, we have created 5 new problems (and the example one). Their main goal is to test the efficiency of the method, in terms of optimality of the solution and execution time.
@@ -246,7 +256,7 @@ Thanks to the \textit{ProblemReader}, any CoffeeServer problem can be written an
 \subsection{Optimality of the problem}
 The STRIPS linear planner does not achieve an optimal solution, but we can try to improve its results by using good heuristics. We explained our heuristics in previous sections, and here we present how they work. We will do this by comparing the results obtained for the example problem.
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{figures/example_problem.png}
 	\caption{Example problem and the sub-optimal path found}
@@ -264,10 +274,10 @@ Now we are presenting the 5 problems created for testing the planner. They have 
 
 The performance results for these problems are presented in the following table, in the measures of number of steps, iterations and execution time in milliseconds.
 
-\begin{table}[]
+\begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
+	\caption{Table of performance results}
+	\label{results}
 	\begin{tabular}{llllll}
 		\hline
 		Problem             & \textbf{P1 (4)} & \textbf{P2 (6)} & \textbf{P3 (10)} & \textbf{P4 (20)} & \textbf{P5 (31)} \\ \hline
@@ -297,12 +307,15 @@ The number of steps depends on the disposition of the petitions themselves, so i
 In both cases (which are profoundly related) the values follow an exponential trendline. This leads us to think that this method becomes impracticable for problems bigger than the ones for the coffee server, which are limited by the grid size.
 
 \section{Instructions to execute the program}
+You can find attached to the delivery a \textit{src} folder. It contains all the source files needed to execute the program, so you can just add this src folder to an Eclipse project if you want to reproduce it.
+
+For just executing the program, you have a \textit{jar} file in the delivery. It requires an argument to work, which is the path of the problem to solve. As the problems are in the same folder, you can just run \textit{java -jar planner.jar problem1.txt}, if you want to run the problem1.txt. Then you will write the log into the log\_problem1.txt.
 
 \newpage
 \section{Annex 1: definition of the test problems}
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.4]{figures/problems.png}
+	\includegraphics[scale=0.5]{figures/problems.png}
 	\caption{Definition of the 5 test problems}
 	\label{problems} 
 \end{figure}

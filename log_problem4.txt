@@ -31137,5 +31137,5 @@ Serve(o2, 1)
 Move(o2, o1)
 
 Steps: 149
-Execution time: 332 ms
+Execution time: 371 ms
 Number of iterations: 386

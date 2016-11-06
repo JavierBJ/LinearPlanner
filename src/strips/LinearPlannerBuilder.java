@@ -76,12 +76,24 @@ public class LinearPlannerBuilder {
 	
 	/**
 	 * Returns the constructed LinearPlanner, from the predicates, operators
-	 * and initial and final state specified to the builder.
-	 * @throws FileNotFoundException 
+	 * and initial and final state specified to the builder. Or throws an exception
+	 * if the problem is badly designed.
 	 */
-	public LinearPlanner build() throws FileNotFoundException {
-		return new LinearPlanner(availablePredicates, availableOperators,
-				initialState, finalState, intelligence, logOutput);
+	public LinearPlanner build() throws FileNotFoundException, PlannerBuilderException {
+		if (!isBadlyDesigned()) {
+			return new LinearPlanner(availablePredicates, availableOperators,
+					initialState, finalState, intelligence, logOutput);
+		} else throw new PlannerBuilderException();
+		
+	}
+
+	/**
+	 * Checks if there is any problem with the LinearPlanner indicated.
+	 */
+	private boolean isBadlyDesigned() {
+		return availablePredicates.isEmpty() || availableOperators.isEmpty() ||
+				(initialState == null) || (finalState == null) || 
+				(intelligence == null);
 	}
 	
 }

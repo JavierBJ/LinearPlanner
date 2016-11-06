@@ -5,7 +5,7 @@
     <id>UMLInterface</id>
     <coordinates>
       <x>190</x>
-      <y>130</y>
+      <y>650</y>
       <w>100</w>
       <h>80</h>
     </coordinates>
@@ -18,7 +18,7 @@ bg=green</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>160</x>
-      <y>250</y>
+      <y>130</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -216,7 +216,7 @@ bg=yellow</panel_attributes>
       <x>120</x>
       <y>390</y>
       <w>1250</w>
-      <h>280</h>
+      <h>350</h>
     </coordinates>
     <panel_attributes>strips
 --

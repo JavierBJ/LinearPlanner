@@ -10,6 +10,22 @@ import strips.Parameter;
 import strips.Predicate;
 import strips.State;
 
+/**
+ * 
+ * The ProblemReader is able to read a CoffeeServer problem.
+ * It reads a text file with the following syntax:
+ * 
+ * InitialState=Predicate1(p1,p2);Predicate2(p1);...
+ * 
+ * FinalState=Predicate1(p1);Predicate2(p2);
+ * Predicate3(p3);
+ * 
+ * And is able to return an initial and final state containing
+ * the specified information.
+ * 
+ * @author Javier Beltran, Jorge Rodriguez
+ *
+ */
 public class ProblemReader {
 	
 	private BufferedReader file;
@@ -21,24 +37,32 @@ public class ProblemReader {
 		goalState = null;
 	}
 	
+	/**
+	 * Reads the file and creates the initial and final states.
+	 */
 	public void readStates() throws IOException {
+		/* Reads the initial state part */
 		String initialText = "";
 		String line = file.readLine();
 		while (!line.equals("")) {
 			initialText += line;
 			line = file.readLine();
 		}
+		
+		/* Reads the final state part */
 		String goalText = "";
 		while (line != null) {
 			goalText += line;
 			line = file.readLine();
 		}
 		
+		/* Detects the list of predicates of both parts */
 		String[] initStrings = initialText.split("=")[1].split(";");
 		String[] goalStrings = goalText.split("=")[1].split(";");
 		List<Predicate> initPredicates = new ArrayList<>();
 		List<Predicate> goalPredicates = new ArrayList<>();
 		
+		/* Adds the predicates for both states */
 		for (String predString : initStrings) {
 			initPredicates.add(createPredicate(predString));
 		}
@@ -50,6 +74,10 @@ public class ProblemReader {
 		goalState = new State(goalPredicates);
 	}
 	
+	/**
+	 * Reads a predicate in its textual form and translates
+	 * it to a real predicate object.
+	 */
 	private Predicate createPredicate(String s) {
 		/* Gets the name and parameters of the string */
 		s = s.trim().replace(")","");

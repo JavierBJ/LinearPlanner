@@ -1,5 +1,13 @@
 package coffeeServer;
 
+/**
+ * 
+ * This class contains the Manhattan Distance used by the coffee server
+ * problem to determine the number of steps took by the robot in a path.
+ * 
+ * @author Javier Beltran, Jorge Rodriguez
+ *
+ */
 public class Distance {
 	
 	/**
