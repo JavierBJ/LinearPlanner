@@ -150,15 +150,45 @@ In this section we are going to  analyse the problem. First of all we notice tha
 
 Taking into account the considerations to simplify the problem, this problem can be seen as an optimization problem where we want to minimize the number of steps of the robot choosing the order in which it has to visit every petition after passing for a coffee machine with the same amount of coffee as the petition. 
 
-The search space has a total size of $|P!||M^{|P|}|$, where $|P|$ is the number of petitions and $|M|$ the number of possible machine, supposing that the robot always takes the optimal path form one point to another, so the number of possible paths is irrelevant,as the cost is always the same. To get to this result we just need to notice that we have two list of possible orders, the petitions which can't be revisited, what means a factorial; and the machines which can be revisited what means a exponential number of combinations. As we can see the number of petitions is what increases more the complexity of the problem.
+The search space has a total size of $|P!||M^{|P|}|$, where $|P|$ is the number of petitions and $|M|$ the number of possible machine, supposing that the robot always takes the optimal path form one point to another, so the number of possible paths is irrelevant,as the cost is always the same. To get to this result we just need to notice that we have two list of possible orders, the petitions which can't be revisited, what means a factorial; and the machines which can be revisited what means a exponential number of combinations. As we can see the number of petitions is what increases more the complexity of the problem, interestingly the complexity rely on the number of petitions and machines, the size of the grid doesnt' affect the complexity.
 
 For the example we have a total of 375000 possible solutions, however as we have taken the consideration that to serve a petition we need to go to a machine with the same number of coffees, the total number decreases to 1920.
 
-In the definition of the problem the robot moves across a square grid consisting of 36 squares, the squares are called o1, o2, ..., o36. To make it easier to count the number of steps, we have considered a way to convert this to coordinates $(x,y)$.
+Solving the problem with an standard exploration algorithm is not an option, we must use a different one, for this exercise we will use the STRIPS algorithm. STRIPS has a linear cost, however is does not find the optimal solution, unless we use the correct heuristics. This heuristics we have defined are explained in the next section.
+
+Another thing to take into account is that, in the definition of the problem the robot moves across a square grid consisting of 36 squares, the squares are called o1, o2, ..., o36. To make it easier to count the number of steps, we have considered a way to convert this to coordinates $(x,y)$. For a $6 \times 6$ grid we have the following equation:
+
+\begin{align}
+	x & = o-1 \ (mod6) \\
+	y & = [\frac{o-1}{6}] 
+\end{align}
+
+Where o is the value of the position, $[ \ ]$ represents the integer part of the number and  $mod6$ means the remainder of the division.
+
+Since this is an example, the preconditions, operators and states are quite straightforward, however the way the steps are calculated could somehow be troublesome. This doesn't mean is difficult, we just need to be careful as we do it in the implementation.
+
+For the STRIPS algorithm we need to organize well the preconditions as new operators are needed, if we do not do so, we can situations like cycles or impossible to instantiate parameters. For example, if we use the operator $Make(o,n)$ if the precondition $robot-location(o)$ the one in the top of the stack, the algorithm would not know the value of $o$, instead, if we stack $Machine(o,n)$ last, the value $o$ is given by the number of coffees $n$ needed. In the following section we will discuss the heuristics needed to avoid this kind of situations and to minimise the steps needed to serve the coffees.
 
 
 \section{Planning algorithm}
 
+The first think we have to consider is the order we stack the predicates for the final state, as this is the way we  will resolve the problem, the order determines directly the optimality. To solve this we have created two functions:
+\begin{itemize}
+	\item The first one orders the petitions based on the distance to the final position. This way we solve the problem trying to end the nearest as possible from the final position. This does not assure optimality but it gives a decent enough solution.
+	
+	\item The second one, orders the petitions based on their distance to the first and last locations. The way it does this is by staking first the nearer to the final location, them it stack last the nearest to the initial location, etc. This approach is slightly better than the previous one, since we take into account the initial location. Nevertheless, as before, we can't assure the optimality of the solutions, sometimes it will be optimal. Although, we know that the solution will very suboptimal.
+	
+\end{itemize}
+
+For the operators $Make$ and $Serve$ we have chosen a fix order to stack the preconditions, since the order determines the result of the problem. For this we have done some steps of the STRIPS algorithm by hand, so we could see how the algorithm works for our problem.
+
+For the $Make$ operator, first we stack $robot-location$, since we do not know the value for the $o$ parameter; them we stack $Machine$ so we can get the location $o$ based on the petition value $n$, notice that the location of the machine will be the nearer one to the robot and the petition, in other words, the one that minimises, $d$:
+$$d = distance(machine, robot) + distance(machine, petition)$$
+ At last, $robot- free$ gets stacked, since is the first think need before getting coffee, notice that the way we have define this problem, the robot will always be free when it gets here.
+ 
+ For $Serv$ operator the order is more or less the same. First we stack $robot-location$, since we do not know the value of $o$; them $robot-loaded$, due to it has to carry coffee to serve it and we do not know the number of coffees needed; the last thing to stack, which will be the first thing to get unstacked, is the petition which will instantiate the values of $o$ and $n$.
+ 
+ Summarizing the planner will stack $Served(o)$ then it will unstack it, to get to $Served(o)$ we need the operator $Serve(o,n)$ which has the preconditions: $robot-location(o)$, $ loaded(n) $ and $petition(o,n)$. with petition it instantiates the parameters, the planner unstacks loaded, for which it needs the operator $Make(o',n)$ after stacking the preconditions: $robot-location(o')$, $machine(o',n)$ and $robot-free$. It instantiates $o'$ so it can use the operator $Move(o_i,o')$. Them the planner has solved one petition, the rest are exactly the same.
 
 \section{Implementation design}
 
