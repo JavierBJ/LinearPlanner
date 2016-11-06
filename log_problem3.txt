@@ -11302,5 +11302,5 @@ Serve(o35, 1)
 Move(o35, o36)
 
 Steps: 42
-Execution time: 163 ms
+Execution time: 154 ms
 Number of iterations: 196

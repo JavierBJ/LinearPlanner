@@ -809,5 +809,5 @@ Serve(o11, 3)
 Move(o11, o7)
 
 Steps: 9
-Execution time: 70 ms
+Execution time: 78 ms
 Number of iterations: 25

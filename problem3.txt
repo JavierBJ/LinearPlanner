@@ -7,5 +7,5 @@ Steps(0);
 
 GoalState=Robot-location(o36);
 Served(o4);Served(o10);Served(o16);Served(o22);
-Served(o23);Served(o29,1);Served(o35);Served(o24);
+Served(o23);Served(o29);Served(o35);Served(o24);
 Served(o18);Served(o34);

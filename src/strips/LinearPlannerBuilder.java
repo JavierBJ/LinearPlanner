@@ -5,8 +5,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import coffeeServer.Intelligence;
-
 /**
  * 
  * A LinearPlannerBuilder is a Builder design pattern that helps

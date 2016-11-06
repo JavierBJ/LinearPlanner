@@ -5704,5 +5704,5 @@ Serve(o10, 3)
 Move(o10, o16)
 
 Steps: 65
-Execution time: 116 ms
+Execution time: 113 ms
 Number of iterations: 120

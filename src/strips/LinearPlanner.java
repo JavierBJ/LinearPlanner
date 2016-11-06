@@ -5,8 +5,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import coffeeServer.Intelligence;
-
 /**
  * 
  * A LinearPlanner receives a problem defined by a set of predicates,
@@ -68,7 +66,7 @@ public class LinearPlanner {
 		
 		/* The stack is initialized with the predicates of the goal state */
 		stack.push(finalState);
-		for (Predicate p : intelligence.orderFinalState(finalState)) {
+		for (Predicate p : intelligence.orderFinalState(currentState, finalState)) {
 			stack.push(p);
 		}
 		

@@ -202,7 +202,7 @@ This is what happens in our Coffee Server. The $Move(o1,o2)$ operator, when appl
 
 These problems can be solved by extending the generic Planner module, and adding some specific elements with a special behaviour. In our case, a MoveOperator has been created. It is able to instantiate the parameter of $Steps$ properly, by increasing the path distance and saving it in the new predicate.
 
-The heuristics used by the solver are also problem-specific, and should extend from the $Intelligence$ interface. In our problem we define the heuristics explained in the previous section. They implement the methods $orderFinalState()$ for stacking the petitions in the most efficient order, and $orderPreconditions()$ for stacking the preconditions of every operator in the right order. preventing loops.
+The heuristics used by the solver are also problem-specific, and should extend from the $Intelligence$ interface. In our problem we define the heuristics explained in the previous section. They implement the methods $orderFinalState()$ for stacking the petitions in the most efficient order, and $orderPreconditions()$ for stacking the preconditions of every operator and preventing loops.
 
 (full class diagram)
 
@@ -211,10 +211,49 @@ Having explained the common and the specific part, the best way to organize the 
 (package diagram)
 
 \section{Testing cases and results}
+Thanks to the \textit{ProblemReader}, any CoffeeServer problem can be written and read from the program. One just needs to write the initial and final state, following the syntax indicated in the exercise. Specifically, we have created 5 new problems (and the example one). Their main goal is to test the efficiency of the method, in terms of optimality of the solution and execution time.
 
+\subsection{Optimality of the problem}
+The STRIPS linear planner does not achieve an optimal solution, but we can try to improve its results by using good heuristics. We explained our heuristics in previous sections, and here we present how they work. We will do this by comparing the results obtained for the example problem.
 
+(image example problem)
+
+The steps taken by the algorithm are 29. We know that this is sub-optimal, as it is higher than the number of steps indicated in the exercise definition.
+
+Our conclusion is that our heuristics may be improved by taking into account not only the final position of the robot, but also the starting position, so as to organize the petition orders in a logical way for minimizing displacements.
+
+\subsection{Performance metrics}
+The number of steps taken to solve the problem is not the only measure we should try to minimize. Given that the algorithm iterates over the stack in order to apply operators and build a plan, there are multiple ways to get to a plan in a specific number of steps. And some of these plans are more efficient than others (they require a least amount of iterations of the algorithm). This is why we are also looking at the number of iterations to complete the problem. The number of iterations is proportional to the execution time, which is another measure we are trying to optimize. 
+
+Now we are presenting the 5 problems created for testing the planner. They have an increasing number of petitions, which is the predicate directly related to the complexity of the solution. The following image shows the initial state of every problem, as well a blue cross in the final position they must achieve. Please note that the definition of these problems in text files is found in the project, as well as their logs.
+
+(image 5 problems)
+
+The performance results for these problems are presented in the following table, in the measures of number of steps, iterations and execution time in milliseconds.
+
+\begin{table}[]
+	\centering
+	\caption{My caption}
+	\label{my-label}
+	\begin{tabular}{llllll}
+		\hline
+		Problem             & \textbf{P1} & \textbf{P2} & \textbf{P3} & \textbf{P4} & \textbf{P5} \\ \hline
+		\textbf{Steps}      & 42          & 65          & 42          & 149         & 180         \\
+		\textbf{Iterations} & 82          & 120         & 196         & 386         & 595         \\
+		\textbf{Time (ms)}  & 101         & 113         & 159         & 332         & 647         \\ \hline
+	\end{tabular}
+\end{table}
+
+The number of steps depends on the disposition of the petitions themselves, so it is not a good measure for general performance of the algorithm. We will focus on the iterations and the execution time. The following graphics show their evolution.
+
+(graph iters)
+
+(graph time)
+
+In both cases (which are profoundly related) the values follow an exponential trendline. This leads us to think that this method becomes impracticable for problems bigger than the ones for the coffee server, which are limited by the grid size.
 
 \section{Instructions to execute the program}
+
 
 
 \end{document}

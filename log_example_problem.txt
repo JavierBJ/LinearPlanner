@@ -4601,5 +4601,5 @@ Serve(o13, 2)
 Move(o13, o7)
 
 Steps: 29
-Execution time: 110 ms
+Execution time: 108 ms
 Number of iterations: 101
